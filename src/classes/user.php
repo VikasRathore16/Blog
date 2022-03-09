@@ -64,6 +64,18 @@ class User extends DB
         return $userId;
     }
 
+    // //get user only by email for password check
+    // public function getemail($email)
+    // {
+    //     $sql = DB::getInstance()->prepare(
+    //         "Select * from Users where email ='$email' and password = '$password' "
+    //     );
+    //     $sql->execute();
+    //     $result = $sql->setFetchMode(\PDO::FETCH_ASSOC);
+    // }
+
+
+    //get user by email password
     public function getUser($email, $password)
     {
         $sql = DB::getInstance()->prepare(
@@ -92,8 +104,6 @@ class User extends DB
               <th scope='col'>Last Name</th>
               <th scope='col'>Email</th>
               <th scope='col'>Role</th>
-              <th scope='col'>Address</th>
-              <th scope='col'>Pincode</th>
               <th scope='col'>Status</th>
               <th scope='col'>Action</th>
             </tr>
@@ -108,8 +118,6 @@ class User extends DB
             <td>$v[lastName]</td>
             <td>$v[email]</td>
             <td>$v[role]</td>
-            <td>$v[address]</td>
-            <td>$v[pincode]</td>
             <td>$v[status]</td>
             <td>
             <button class='border-0 btn' name='userId' value='$v[userId]' id='delete' data-userid ='$v[userId]'>Delete</button> ";

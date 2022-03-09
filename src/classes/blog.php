@@ -2,11 +2,64 @@
 
 namespace blog;
 
-class Blog
+class Blog 
 {
     public function __construct()
     {
     }
+
+
+    public function getAllblogs()
+    {
+        $sql = DB::getInstance()->prepare('Select * from weblog');
+        $sql->execute();
+        $sql->setFetchMode(\PDO::FETCH_ASSOC);
+        $html = "<div class='table-responsive'>
+        <table class='table table-striped table-sm'>
+          <thead>
+            <tr>
+              <th scope='col'>User ID</th>
+              <th scope='col'>User Name</th>
+              
+              <th scope='col'>First Name</th>
+              <th scope='col'>Last Name</th>
+              <th scope='col'>Email</th>
+              <th scope='col'>Role</th>
+              <th scope='col'>Status</th>
+              <th scope='col'>Action</th>
+            </tr>
+          </thead>
+          <tbody>";
+        foreach (new \RecursiveArrayIterator($sql->fetchAll()) as $k => $v) {
+            // print_r($v);
+            $html .= "<tr id='$v[userId]'>
+            <td>$v[userId]</td>
+            <td>$v[username]</td>
+            <td>$v[firstName]</td>
+            <td>$v[lastName]</td>
+            <td>$v[email]</td>
+            <td>$v[role]</td>
+            <td>$v[status]</td>
+            <td>
+            <button class='border-0 btn' name='userId' value='$v[userId]' id='delete' data-userid ='$v[userId]'>Delete</button> ";
+            if ($v['status'] == 'Restricted') {
+                $html .= "<button class='border-0 btn text-light ps-3 pe-3' name='userId' value='$v[userId]' style='background-color:deepskyblue;'  id='status$v[userId]' data-sta data-status='$v[status]' data-userid ='$v[userId]'>Approve</button> </td>
+          </tr>";
+            } else {
+                $html .= "<button class='border-0 btn  text-light ps-3 pe-3' name='userId' style='background-color:tomato;'  value='$v[userId]' id='status$v[userId]' data-status='$v[status]' data-userid ='$v[userId]'>Restrict</button> </td>";
+            }
+        }
+
+        $html .= "</tr>
+        </tbody>
+      </table>
+    </div>";
+        return $html;
+    }
+
+
+
+
     public function header()
     {
         $html = " <header class='container-fluid p-0 header pb-5 pt-2'>
@@ -23,7 +76,7 @@ class Blog
             <div class='col-2'></div>
             <div class='col-1 mx-auto mt-3'>
             <a href='".URLROOT ."/admin/' class='btn border-0  rounded-pill bg-dark text-light'>
-            <span class='h5'>Sign In</span>
+            <span class='h5'>Log In</span>
             </a>
             </div>
         </div>

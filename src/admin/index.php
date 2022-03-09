@@ -2,6 +2,7 @@
 
 use blog\LogIn;
 
+error_reporting(0);
 require_once "../vendor/autoload.php";
 session_start();
 
@@ -22,8 +23,8 @@ if (isset($_POST['submit'])) {
         array_push($_SESSION['admin'], $email, $password);
         header('location: dashboard.php');
     } elseif ($status == "Approved") {
-        $_SESSION['username'] = array();
-        array_push($_SESSION['username'], $User);
+        $_SESSION['user'] = array();
+        array_push($_SESSION['user'], $User);
         header('location: profile.php');
     }
 }
@@ -65,7 +66,7 @@ if (isset($_POST['submit'])) {
 
             <div class=" mb-3 small">
                 <label>
-                    Don't have account ? <a href="Signup.php">Sign Up</a>
+                    Don't have account ? <a href="signup.php">Sign Up</a>
                 </label>
             </div>
             <div class=" mb-3 small text-danger">
